@@ -5,7 +5,7 @@
 # AI Bestie
 
 
-AI Bestie is a desktop chat application that provides a friendly interface to interact with AI language models through OpenRouters API. Chat naturally with AI assistants in your preferred language with a clean, intuitive interface.
+AI Bestie is a desktop chat application that provides a friendly interface to interact with free AI language models through OpenRouters API. Chat naturally with AI assistants in your preferred language with a clean, intuitive interface.
 
 ## Features
 - Seamless AI Conversations: Create and manage multiple chat conversations with AI models
@@ -13,7 +13,6 @@ AI Bestie is a desktop chat application that provides a friendly interface to in
 - Responsive Design: Works well on desktop and mobile views
 - Conversation History: Browse and switch between your past conversations
 - Model Selection: Configure which AI model you want to chat with
-- Privacy Focused: Your conversations stay local - no data storage on external servers
 
 ## Installation
 ### Prerequisites
