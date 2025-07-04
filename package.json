@@ -1,0 +1,56 @@
+{
+  "name": "ai-bestie",
+  "description": "An AI-powered Ai-Bestie desktop application built with Electron and Angular, featuring connectivity to OpenRouters free models.",
+  "author": "Giacomo Barbalinardo <info@ready24it.eu>",
+  "version": "0.0.1",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "electron:dev": "electron . --dev",
+    "ng:serve": "cd angular-app && ng serve",
+    "build": "cd angular-app && ng build --base-href ./",
+    "package:win": "electron-builder build --win",
+    "package:mac": "electron-builder build --mac",
+    "package:linux": "electron-builder build --linux",
+    "package": "yarn package:win && yarn package:mac && yarn package:linux",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "packageManager": "yarn@2.4.3",
+  "devDependencies": {
+    "electron": "^36.4.0",
+    "electron-builder": "26.0.12"
+  },
+  "dependencies": {
+    "electron-store": "^10.1.0"
+  },
+  "build": {
+    "appId": "com.electron.ai-bestie",
+    "productName": "AI Bestie",
+    "files": [
+      "electron/**/*",
+      "angular-app/dist/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "extraResources": [
+      {
+        "from": "angular-app/dist/",
+        "to": "angular-app/dist/"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/logo.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "public/logo.png"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<div class="modal d-block">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+                <button type="button" class="btn-close" (click)="close()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="apiKey" class="form-label">API Key</label>
+                    <div class="input-group">
+                        <input type="{{ showApiKey ? 'text' : 'password' }}" class="form-control" id="apiKey" [(ngModel)]="apiKey">
+                        <button class="btn btn-outline-secondary" type="button" (click)="toggleApiKeyVisibility()">
+                            <i class="bi" [ngClass]="showApiKey ? 'bi-eye-slash-fill' : 'bi-eye-fill'"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="model" class="form-label">Model</label>
+                    <select class="form-select" id="model" [(ngModel)]="selectedModel">
+                        <option *ngFor="let model of models" [value]="model">{{ model }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="close()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="onSave()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+// Simple approach - import Bootstrap first, then customize
+@use 'bootstrap/scss/bootstrap';
+
+// Add your custom CSS variables after Bootstrap import
+:root {
+    --bs-ai-primary: #3f326e;
+    --bs-ai-secondary: #27b1b4;
+    --bs-ai-tertiary: #75d7d3;
+    --bs-ai-dark: #1a1a1a;
+    --bs-ai-light: #f8f9fa;
+    --bs-ai-highlight: #a79dc6;
+
+    // RGB versions for transparency
+    --bs-ai-primary-rgb: 63, 50, 110;
+    --bs-ai-secondary-rgb: 39, 177, 180;
+    --bs-ai-tertiary-rgb: 117, 215, 211;
+    --bs-ai-dark-rgb: 26, 26, 26;
+    --bs-ai-light-rgb: 248, 249, 250;
+}
+
+// Create utility classes for your custom colors
+.bg-ai-primary { background-color: var(--bs-ai-primary) !important; }
+.bg-ai-secondary { background-color: var(--bs-ai-secondary) !important; }
+.bg-ai-tertiary { background-color: var(--bs-ai-tertiary) !important; }
+.bg-ai-dark { background-color: var(--bs-ai-dark) !important; }
+.bg-ai-light { background-color: var(--bs-ai-light) !important; }
+
+.text-ai-primary { color: var(--bs-ai-primary) !important; }
+.text-ai-secondary { color: var(--bs-ai-secondary) !important; }
+.text-ai-tertiary { color: var(--bs-ai-tertiary) !important; }
+.text-ai-dark { color: var(--bs-ai-dark) !important; }
+.text-ai-light { color: var(--bs-ai-light) !important; }
+
+.border-ai-primary { border-color: var(--bs-ai-primary) !important; }
+.border-ai-secondary { border-color: var(--bs-ai-secondary) !important; }
+.border-ai-tertiary { border-color: var(--bs-ai-tertiary) !important; }
+.border-ai-dark { border-color: var(--bs-ai-dark) !important; }
+.border-ai-light { border-color: var(--bs-ai-light) !important; }
+
+// Custom button styles
+.btn-ai-primary {
+    background-color: var(--bs-ai-primary);
+    border-color: var(--bs-ai-primary);
+    color: white;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--bs-ai-primary) 85%, black);
+        border-color: color-mix(in srgb, var(--bs-ai-primary) 85%, black);
+        color: var(--bs-ai-secondary);
+    }
+}
+
+.btn-ai-secondary {
+    background-color: var(--bs-ai-secondary);
+    border-color: var(--bs-ai-secondary);
+    color: white;
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--bs-ai-secondary) 85%, black);
+        border-color: color-mix(in srgb, var(--bs-ai-secondary) 85%, black);
+    }
+}

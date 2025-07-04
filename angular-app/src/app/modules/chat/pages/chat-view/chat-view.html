@@ -1,0 +1,157 @@
+<div class="container-fluid vh-100 p-0">
+    <!-- Overlay for mobile when sidebar is open -->
+    <div class="sidebar-overlay" [class.show]="isSidebarOpen" (click)="toggleSidebar()"></div>
+
+    <div class="row h-100 g-0">
+        <!-- Sidebar - hidden on mobile by default -->
+        <div class="col-md-3 col-lg-2 bg-ai-dark text-ai-light h-100 d-flex flex-column sidebar-container"
+             id="chatSidebar" [class.show]="isSidebarOpen">
+            <div class="d-flex align-items-center justify-content-between p-3 border-bottom border-secondary">
+                <div class="d-flex align-items-center">
+                    <img src="bestie_ai.svg" alt="AI Bestie Logo" class="me-2" style="width: 36px; height: 36px;">
+                    <h5 class="mb-0">AI Bestie <small>v.0.0.1</small></h5>
+                </div>
+                <!-- Close button for mobile -->
+                <button class="btn btn-outline-light btn-sm d-md-none" (click)="toggleSidebar()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="p-3">
+                @if (modelNameInUse !== 'undefined') {
+                    <button class="btn btn-ai-secondary w-100 mb-3" (click)="startNewConversation()">
+                        <i class="bi bi-plus-circle me-2"></i>New Chat
+                    </button>
+                }
+            </div>
+            <div class="overflow-auto flex-grow-1">
+                <div class="list-group list-group-flush border-0">
+                    @for (conversation of conversationService.conversations(); track conversation.id) {
+                        <button class="list-group-item list-group-item-action bg-ai-dark text-ai-secondary border-secondary"
+                           (click)="selectConversation(conversation)" [class.active]="conversationService.currentConversation()?.id === conversation.id">
+                            <i class="bi bi-chat-left-text me-2"></i>
+                            {{ conversation.title || 'Untitled Conversation' }}
+                            <span class="badge bg-ai-primary ms-2">{{ conversation.messages.length - 1 }}</span>
+                        </button>
+                    } @empty {
+                        <div class="list-group-item bg-ai-dark text-ai-tertiary border-secondary">
+                            <i class="bi bi-x-circle me-2 text-ai-secondary"></i>
+                            No conversations yet. Start a new chat!
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="mt-auto p-3 border-top border-secondary">
+                <button class="btn btn-outline-light btn-sm w-100" (click)="openSettings()">
+                    <i class="bi bi-gear me-2"></i>Settings
+                </button>
+            </div>
+        </div>
+        @if (conversationService.currentConversation()) {
+
+        <!-- Main Chat Area -->
+            <div class="col-12 col-md-9 col-lg-10 d-flex flex-column h-100" id="chatMainContent">
+                <!-- Header with sidebar toggle -->
+                <div class="bg-ai-light p-3 border-bottom d-flex align-items-center justify-content-between">
+                    <!-- Sidebar toggle button - visible only on mobile -->
+                    <button class="btn btn-outline-dark d-md-none me-2" (click)="toggleSidebar()">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <h5 class="mb-0 text-ai-primary">{{ conversationService.currentConversation()?.title }} ({{ conversationService.currentConversation()?.model }})</h5>
+                </div>
+
+            <!-- Messages Area -->
+                <div class="flex-grow-1 overflow-auto p-3 bg-body-tertiary" #chatContainer>
+                    <div class="d-flex flex-column gap-4 max-width-conversation mx-auto">
+                        @for (message of conversationService.currentConversation()?.messages; track message) {
+                            @if(message.role === 'assistant') {
+                                <div class="d-flex">
+                                    <div class="avatar me-3 align-self-start mt-1">
+                                        <div
+                                            class="rounded-circle bg-ai-primary text-ai-light d-flex justify-content-center align-items-center"
+                                            style="width: 36px; height: 36px;">
+                                            <i class="bi bi-robot"></i>
+                                        </div>
+                                    </div>
+                                    <div class="message">
+                                        <div class="fw-bold mb-1 text-ai-primary">{{ message.role | titlecase }}</div>
+                                        <div class="p-3 rounded bg-white shadow-sm">
+                                            @if (message.status === 'pending') {
+                                                <div class="d-flex align-items-center">
+                                                    <div class="spinner-border text-primary me-2" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    <p class="mb-0">Thinking...</p>
+                                                </div>
+                                            } @else if (message.status === 'error') {
+                                                <p class="text-danger mb-0">Error</p>
+                                            } @else {
+                                                <p class="mb-0">{{ message.content }}</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            } @else if (message.role === 'user') {
+                                <div class="d-flex justify-content-end">
+                                    <div class="message">
+                                        <div class="text-end fw-bold mb-1">You</div>
+                                        <div class="p-3 rounded bg-ai-secondary text-ai-light shadow-sm">
+                                            <p class="mb-0">{{ message.content }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="avatar ms-3 align-self-start mt-1">
+                                        <div
+                                            class="rounded-circle bg-ai-tertiary text-ai-dark d-flex justify-content-center align-items-center"
+                                            style="width: 36px; height: 36px;">
+                                            <i class="bi bi-person-fill"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        } @empty {
+                            <div>
+                                <p class="text-center text-muted">No messages yet. Start the conversation!</p>
+                            </div>
+                        }
+
+                        @if (conversationService.currentConversation()?.messages?.length === 1) {
+                            <div class="text-center text-muted small">
+                                <i class="bi bi-chat-left-text"></i> this is the start of your conversation.
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="p-3 bg-ai-light border-top">
+                    <div class="max-width-conversation mx-auto">
+                        <div class="d-flex gap-2">
+                            <form [formGroup]="messageForm" (ngSubmit)="sendMessage()" class="w-100">
+                                <div class="input-group">
+                                    <input type="text" class="form-control border-ai-secondary" placeholder="Type your message..."
+                                           formControlName="message"/>
+                                    <button class="btn btn-ai-primary d-flex align-items-center justify-content-center" [disabled]="!conversationEnabled()"
+                                            type="submit" style="width: 40px;">
+                                        <i class="bi bi-send"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="text-muted small text-center mt-2">
+                            AI Bestie acts only as a tool to write through OpenRouters API. It does not store any data or conversations.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        } @else {
+            <div class="col-12 col-md-9 col-lg-10 d-flex flex-column h-100" id="chatMainContent">
+                <div class="row p-0 m-0">
+                    <div class="col-md-6 offset-md-3 text-center">
+                        <div class="alert alert-warning text-center mt-5" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill"></i> No conversation selected. Please select or start a new chat.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
