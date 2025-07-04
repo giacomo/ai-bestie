@@ -1,5 +1,9 @@
+<p align="center">
+  <img src="public/logo.png" width="256px" alt="AI Bestie Logo"/>
+</p>
+
 # AI Bestie
-<img src="public/logo.png" alt="AI Bestie Logo"></img>
+
 
 AI Bestie is a desktop chat application that provides a friendly interface to interact with AI language models through OpenRouters API. Chat naturally with AI assistants in your preferred language with a clean, intuitive interface.
 
