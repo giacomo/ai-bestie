@@ -2,12 +2,6 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
-// const { default: Store } = require('electron-store');
-
-// const { setupIrcClient } = require('./irc');
-// const { setupSearchHandlers } = require('./search');
-
-// const store = new Store();
 
 const settingsPath = path.join(app.getPath('userData'), 'settings.json');
 
@@ -75,12 +69,6 @@ function createWindow() {
       mainWindow.removeMenu();
     });
   }
-
-  // Set up IRC client handlers
-  // setupIrcClient(mainWindow, store);
-  
-  // Set up search handlers
-  // setupSearchHandlers(mainWindow);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
